@@ -1,5 +1,5 @@
-resource "aws_security_group" "allow_ssh" {
-  name   = "allow-ssh"
+resource "aws_security_group" "allow_ssh_http" {
+  name   = "allow-ssh-http"
   vpc_id = "${aws_vpc.infra_vpc.id}"
   ingress {
     from_port   = 22
@@ -7,6 +7,15 @@ resource "aws_security_group" "allow_ssh" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  # HTTP access from the VPC
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
